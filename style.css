@@ -1,0 +1,26 @@
+head {
+    background-color:blue
+}
+header{
+    text-emphasis-color: red ;
+    text-align-last: right ;
+    font-size: 25px;
+    padding-top : 1px;
+    padding-bottom: 1px;
+    padding-right: 122px;
+    background-color: aliceblue;
+    
+}
+
+body {
+    background-color: aqua;
+}
+
+section {
+    background-color: aliceblue;
+    margin: 45px;
+}
+
+{
+
+}

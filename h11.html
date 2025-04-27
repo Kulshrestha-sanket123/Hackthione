@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health Website - AI Assistant</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f0f2f5;
+        }
+        header nav ul {
+            list-style-type: none;
+            display: flex;
+            gap: 15px;
+            padding: 0;
+        }
+        header nav ul li a {
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+        }
+        main {
+            margin-top: 30px;
+        }
+        input[type="text"] {
+            padding: 10px;
+            width: 300px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            margin-right: 10px;
+        }
+        button {
+            padding: 10px 20px;
+            border: none;
+            background-color: #4CAF50;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #aiResponse {
+            margin-top: 20px;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            min-height: 50px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <nav>
+        <ul>
+            <li><a href="#">Doctor Consultancy</a></li>
+            <li><a href="#">Medicine Buying</a></li>
+            <li><a href="#">Lab Tests</a></li>
+            <li><a href="#">Health Records</a></li>
+            <li><a href="#">Ayurveda</a></li>
+            <li><a href="#">Profile</a></li>
+        </ul>
+    </nav>
+</header>
+
+<main>
+    <section>
+        <h1>Get Healthy Life With Us</h1>
+        <p>TECHDOC - Your personal doctor and wellwisher</p>
+        <p>Select your health concerns:</p>
+        <ul>
+            <li><a href="h6.html"><span class="material-symbols-outlined">dermatology</span> Skin Care</a></li>
+            <li><a href="h9.html"><span class="material-symbols-outlined">symptoms</span> Eye Care</a></li>
+            <li><a href="h10.html"><span class="material-symbols-outlined">orthopedics</span> Liver Care</a></li>
+            <li><a href="h7.html"><span class="material-symbols-outlined">heart_check</span> Heart Care</a></li>
+            <li><a href="h5.html"><span class="material-symbols-outlined">smart_toy</span> Ask AI</a></li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>Ask AI Your Health Questions:</h2>
+        <input type="text" id="userInput" placeholder="Type your health question...">
+        <button onclick="askAI()">Ask</button>
+
+        <div id="aiResponse"></div>
+    </section>
+
+</main>
+
+<script>
+function askAI() {
+    const userInput = document.getElementById('userInput').value;
+    document.getElementById('aiResponse').innerText = "Thinking... 🤔";
+
+    fetch('http://127.0.0.1:5000/ask-ai', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ message: userInput })
+    })
+    .then(response => response.json())
+    .then(data => {
+        document.getElementById('aiResponse').innerText = data.response;
+    })
+    .catch(error => {
+        document.getElementById('aiResponse').innerText = "Error: Could not connect to AI server.";
+        console.error('Error:', error);
+    });
+}
+</script>
+
+</body>
+</html>

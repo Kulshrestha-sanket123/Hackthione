@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Ask AI Anything</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            height: 100vh;
+            background: linear-gradient(90deg, #6dd5ed, #2193b0, #6dd5ed, #00c6ff, #7ee8fa, #e0c3fc, #8ec5fc);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #333;
+            position: relative;
+        }
+
+        .top-left {
+            position: absolute;
+            top: 20px;
+            left: 30px;
+            font-size: 24px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+        }
+
+        .top-left::before {
+            content: "";
+            width: 30px;
+            height: 30px;
+            background: #5fd6f9;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        h2 {
+            font-size: 22px;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .input-container {
+            display: flex;
+            align-items: center;
+            background: linear-gradient(90deg, #ff7eb3, #ff758c, #a18cd1);
+            border-radius: 30px;
+            padding: 8px 20px;
+            width: 300px;
+        }
+
+        input {
+            flex: 1;
+            border: none;
+            background: transparent;
+            outline: none;
+            font-size: 16px;
+            color: white;
+        }
+
+        button {
+            background-color: #fff;
+            border: none;
+            border-radius: 50%;
+            width: 35px;
+            height: 35px;
+            font-size: 20px;
+            cursor: pointer;
+            color: #ff758c;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 10px;
+        }
+
+        #response {
+            margin-top: 30px;
+            padding: 15px;
+            width: 70%;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 15px;
+            font-size: 18px;
+            color: #333;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="top-left">More Options</div>
+
+    <h2>Let's Solve Your Problems Here......</h2>
+
+    <div class="input-container">
+        <input type="text" id="userInput" placeholder="Ask me anything..." />
+        <button onclick="askAI()">+</button>
+    </div>
+
+    <div id="response"></div>
+
+    <script>
+        async function askAI() {
+            const userInput = document.getElementById('userInput').value;
+            const responseDiv = document.getElementById('response');
+
+            if (!userInput.trim()) {
+                responseDiv.innerHTML = "Please enter a question.";
+                return;
+            }
+
+            responseDiv.innerHTML = "Thinking...";
+
+            try {
+                const res = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': 'Bearer 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',
+                        'Content-Type': 'application/json',
+                        'HTTP-Referer': 'https://yourwebsite.com',
+                        'X-Title': 'AI Medical Consultant'
+                    },
+                    body: JSON.stringify({
+                        model: 'deepseek/deepseek-r1:free',
+                        messages: [
+                            { role: 'user', content: userInput }
+                        ]
+                    })
+                });
+
+                const data = await res.json();
+                responseDiv.innerHTML = data.choices[0].message.content;
+
+            } catch (error) {
+                console.error(error);
+                responseDiv.innerHTML = "Error contacting AI. Please try again.";
+            }
+        }
+    </script>
+
+</body>
+
+</html>
